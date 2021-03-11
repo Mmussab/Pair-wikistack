@@ -34,6 +34,17 @@ const User = db.define('user', {
     },
   },
 });
+
+Page.beforeValidate((page) => {
+  if (!page.slug) {
+    {
+      page.slug = page.title.replace(/\s+/g, '_').replace(/\W/g, '');
+    }
+  }
+});
+User.hasMany(Page);
+Page.belongsTo(User, { as: 'author' });
+
 module.exports = {
   db,
   Page,
